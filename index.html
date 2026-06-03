@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="PlannerMate is an AI planning app for daily life, school tasks, study preparation and friends."
+    />
+    <title>PlannerMate | AI Daily Planning</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="top-nav" aria-label="Main navigation">
+        <a class="brand" href="#landing" data-route="landing" aria-label="PlannerMate home">
+          <span class="brand-mark" aria-hidden="true">P</span>
+          <span>PlannerMate</span>
+        </a>
+
+        <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <div class="nav-links" data-nav-links>
+          <a class="nav-link active" href="#landing" data-route="landing">Home</a>
+          <a class="nav-link" href="#dashboard" data-route="dashboard">Dashboard</a>
+          <a class="nav-link" href="#friends" data-route="friends">Friends</a>
+          <a class="nav-link" href="#schedule" data-route="schedule">Schedule</a>
+          <a class="nav-link" href="#interests" data-route="interests">Interests</a>
+          <a class="nav-link nav-pill" href="#auth" data-route="auth">Login</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section id="landing" class="page-section active" data-page="landing" aria-labelledby="landing-title">
+        <div class="hero section-shell">
+          <div class="hero-copy">
+            <p class="eyebrow">AI planning for school, life and friends</p>
+            <h1 id="landing-title">PlannerMate turns messy days into focused plans.</h1>
+            <p class="hero-text">
+              Organize study sessions, school tasks, hangouts and reminders in one dark, calm workspace built
+              for students and busy daily routines.
+            </p>
+            <div class="hero-actions">
+              <a class="btn primary" href="#dashboard" data-route="dashboard">
+                <span aria-hidden="true">+</span>
+                Start planning
+              </a>
+              <a class="btn secondary" href="#schedule" data-route="schedule">
+                <span aria-hidden="true">▦</span>
+                View schedule
+              </a>
+            </div>
+          </div>
+
+          <aside class="app-preview" aria-label="PlannerMate app preview">
+            <div class="preview-topbar">
+              <span></span>
+              <span></span>
+              <span></span>
+              <strong>Today</strong>
+            </div>
+            <div class="preview-grid">
+              <article class="preview-card glow-green">
+                <p>Focus block</p>
+                <strong>Math revision</strong>
+                <span>09:00 - 10:30</span>
+              </article>
+              <article class="preview-card glow-blue">
+                <p>AI suggestion</p>
+                <strong>Move history notes before cinema</strong>
+                <span>Confidence 92%</span>
+              </article>
+              <article class="preview-card glow-pink">
+                <p>Friends</p>
+                <strong>Plan Friday hangout</strong>
+                <span>3 friends available</span>
+              </article>
+            </div>
+          </aside>
+        </div>
+
+        <section class="section-shell content-band" aria-labelledby="features-title">
+          <div class="section-heading">
+            <p class="eyebrow">Features</p>
+            <h2 id="features-title">Built for everyday planning pressure.</h2>
+          </div>
+          <div class="feature-grid" id="featureGrid"></div>
+        </section>
+
+        <section class="section-shell split-band" aria-labelledby="how-title">
+          <div>
+            <p class="eyebrow">How it works</p>
+            <h2 id="how-title">A simple loop for better days.</h2>
+          </div>
+          <ol class="steps-list" id="stepsList"></ol>
+        </section>
+
+        <section class="final-cta section-shell" aria-labelledby="final-cta-title">
+          <div>
+            <p class="eyebrow">Ready for tomorrow</p>
+            <h2 id="final-cta-title">Plan the day, protect your focus, keep friends in the loop.</h2>
+          </div>
+          <a class="btn primary" href="#auth" data-route="auth">Create account</a>
+        </section>
+      </section>
+
+      <section id="dashboard" class="page-section" data-page="dashboard" aria-labelledby="dashboard-title">
+        <div class="section-shell">
+          <div class="page-title-row">
+            <div>
+              <p class="eyebrow">Dashboard</p>
+              <h1 id="dashboard-title">Your day, organized.</h1>
+            </div>
+            <button class="btn primary" type="button" data-route="schedule">
+              <span aria-hidden="true">+</span>
+              Add plan
+            </button>
+          </div>
+
+          <div class="dashboard-layout">
+            <section class="panel panel-large" aria-labelledby="daily-schedule-title">
+              <div class="panel-header">
+                <h2 id="daily-schedule-title">Daily schedule</h2>
+                <span class="status-chip">Active</span>
+              </div>
+              <div class="timeline-list" id="dailySchedule"></div>
+            </section>
+
+            <section class="panel" aria-labelledby="upcoming-title">
+              <div class="panel-header">
+                <h2 id="upcoming-title">Upcoming tasks</h2>
+                <span class="muted">This week</span>
+              </div>
+              <div class="compact-list" id="upcomingTasks"></div>
+            </section>
+
+            <section class="panel" aria-labelledby="reminders-title">
+              <div class="panel-header">
+                <h2 id="reminders-title">Study reminders</h2>
+                <span class="muted">Smart nudges</span>
+              </div>
+              <div class="compact-list" id="studyReminders"></div>
+            </section>
+
+            <section class="panel panel-accent" aria-labelledby="ai-title">
+              <div class="panel-header">
+                <h2 id="ai-title">AI recommendations</h2>
+                <span class="icon-badge">AI</span>
+              </div>
+              <div class="compact-list" id="aiRecommendations"></div>
+            </section>
+
+            <section class="panel" aria-labelledby="friends-preview-title">
+              <div class="panel-header">
+                <h2 id="friends-preview-title">Friends planning</h2>
+                <a href="#friends" data-route="friends">Open</a>
+              </div>
+              <div class="friend-preview" id="friendsPreview"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section id="friends" class="page-section" data-page="friends" aria-labelledby="friends-title">
+        <div class="section-shell">
+          <div class="page-title-row">
+            <div>
+              <p class="eyebrow">Friends</p>
+              <h1 id="friends-title">Plan around real availability.</h1>
+            </div>
+          </div>
+
+          <div class="friends-layout">
+            <section class="panel" aria-labelledby="friend-list-title">
+              <div class="panel-header">
+                <h2 id="friend-list-title">Friend list</h2>
+                <span class="muted">Connected</span>
+              </div>
+              <div class="people-list" id="friendList"></div>
+            </section>
+
+            <section class="panel" aria-labelledby="requests-title">
+              <div class="panel-header">
+                <h2 id="requests-title">Friend requests</h2>
+                <span class="status-chip">2 new</span>
+              </div>
+              <div class="people-list" id="friendRequests"></div>
+            </section>
+
+            <section class="panel panel-large" aria-labelledby="hangout-title">
+              <div class="panel-header">
+                <h2 id="hangout-title">Hangout planning</h2>
+                <span class="muted">UI only</span>
+              </div>
+              <form class="form-grid" id="hangoutForm" novalidate>
+                <label>
+                  Title
+                  <input type="text" name="title" placeholder="Friday movie night" required />
+                </label>
+                <label>
+                  Friend
+                  <select name="friend" required>
+                    <option value="">Choose friend</option>
+                  </select>
+                </label>
+                <label>
+                  Date
+                  <input type="date" name="date" required />
+                </label>
+                <label>
+                  Time
+                  <input type="time" name="time" required />
+                </label>
+                <label class="full-width">
+                  Notes
+                  <textarea name="notes" rows="4" placeholder="Add location, budget or activity notes"></textarea>
+                </label>
+                <button class="btn primary" type="submit">Preview hangout</button>
+                <p class="form-message" data-form-message></p>
+              </form>
+            </section>
+
+            <section class="panel" aria-labelledby="ideas-title">
+              <div class="panel-header">
+                <h2 id="ideas-title">Suggested ideas</h2>
+                <span class="muted">Personalized</span>
+              </div>
+              <div class="idea-list" id="hangoutIdeas"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section id="schedule" class="page-section" data-page="schedule" aria-labelledby="schedule-title">
+        <div class="section-shell">
+          <div class="page-title-row">
+            <div>
+              <p class="eyebrow">Schedule</p>
+              <h1 id="schedule-title">Weekly calendar.</h1>
+            </div>
+            <button class="btn primary" type="button" data-open-modal="scheduleModal">
+              <span aria-hidden="true">+</span>
+              Add schedule item
+            </button>
+          </div>
+          <div class="calendar-grid" id="weeklyCalendar" aria-label="Weekly calendar"></div>
+        </div>
+      </section>
+
+      <section id="interests" class="page-section" data-page="interests" aria-labelledby="interests-title">
+        <div class="section-shell">
+          <div class="page-title-row">
+            <div>
+              <p class="eyebrow">Interests</p>
+              <h1 id="interests-title">Tune recommendations around you.</h1>
+            </div>
+            <span class="status-chip" id="selectedInterestCount">0 selected</span>
+          </div>
+          <div class="interest-grid" id="interestGrid"></div>
+        </div>
+      </section>
+
+      <section id="auth" class="page-section" data-page="auth" aria-labelledby="auth-title">
+        <div class="auth-shell section-shell">
+          <div class="auth-copy">
+            <p class="eyebrow">Account access</p>
+            <h1 id="auth-title">Keep every plan synced when the backend arrives.</h1>
+            <p>
+              These screens are frontend-only today, with validation already separated so the future Spring Boot
+              API can handle authentication cleanly.
+            </p>
+          </div>
+
+          <section class="auth-card" aria-label="Authentication forms">
+            <div class="auth-tabs" role="tablist" aria-label="Authentication options">
+              <button class="auth-tab active" type="button" data-auth-view="login">Login</button>
+              <button class="auth-tab" type="button" data-auth-view="register">Register</button>
+              <button class="auth-tab" type="button" data-auth-view="forgot">Forgot</button>
+            </div>
+
+            <form class="auth-form active" data-auth-form="login" novalidate>
+              <label>
+                Email
+                <input type="email" name="email" placeholder="you@example.com" required />
+              </label>
+              <label>
+                Password
+                <input type="password" name="password" placeholder="At least 6 characters" required minlength="6" />
+              </label>
+              <button class="btn primary full-button" type="submit">Login</button>
+              <p class="form-message" data-auth-message></p>
+            </form>
+
+            <form class="auth-form" data-auth-form="register" novalidate>
+              <label>
+                Full name
+                <input type="text" name="name" placeholder="Alex Morgan" required minlength="2" />
+              </label>
+              <label>
+                Email
+                <input type="email" name="email" placeholder="you@example.com" required />
+              </label>
+              <label>
+                Password
+                <input type="password" name="password" placeholder="At least 8 characters" required minlength="8" />
+              </label>
+              <button class="btn primary full-button" type="submit">Create account</button>
+              <p class="form-message" data-auth-message></p>
+            </form>
+
+            <form class="auth-form" data-auth-form="forgot" novalidate>
+              <label>
+                Email
+                <input type="email" name="email" placeholder="you@example.com" required />
+              </label>
+              <button class="btn primary full-button" type="submit">Send reset link</button>
+              <p class="form-message" data-auth-message></p>
+            </form>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal-backdrop" id="scheduleModal" hidden>
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">Schedule item</p>
+            <h2 id="modal-title">Add schedule item</h2>
+          </div>
+          <button class="icon-button" type="button" data-close-modal aria-label="Close modal">×</button>
+        </div>
+        <form class="modal-form" id="scheduleItemForm" novalidate>
+          <label>
+            Title
+            <input type="text" name="title" placeholder="Biology lab prep" required />
+          </label>
+          <label>
+            Description
+            <textarea name="description" rows="3" placeholder="What should happen during this block?"></textarea>
+          </label>
+          <div class="form-grid two-cols">
+            <label>
+              Start time
+              <input type="time" name="startTime" required />
+            </label>
+            <label>
+              End time
+              <input type="time" name="endTime" required />
+            </label>
+          </div>
+          <label>
+            Location
+            <input type="text" name="location" placeholder="Library, Room 203" />
+          </label>
+          <div class="toggle-row">
+            <label>
+              <input type="checkbox" name="repeating" />
+              Repeating
+            </label>
+            <label>
+              <input type="checkbox" name="active" checked />
+              Active
+            </label>
+          </div>
+          <button class="btn primary full-button" type="submit">Save preview</button>
+          <p class="form-message" data-modal-message></p>
+        </form>
+      </section>
+    </div>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
