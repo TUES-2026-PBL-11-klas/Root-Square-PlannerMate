@@ -1,9 +1,10 @@
 # Default values - override these per environment
+dockerHubUsername: viktorsirakov08
 replicaCount: 1
 
 image:
-  repository: viktoralexiev/planmate
-  tag: v1
+  repository: viktorsirakov08/planmate
+  tag: v2
   pullPolicy: Always
 
 service:
@@ -21,6 +22,37 @@ resources:
 
 env:
   SPRING_PROFILES_ACTIVE: prod
+  IAM_SERVICE_URL: "http://{{ .Release.Name }}-iam:8085"
   SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
   SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: "org.hibernate.dialect.PostgreSQLDialect"
   SERVER_PORT: "8081"
+
+postgres:
+  image:
+    tag: "16-alpine"
+    pullPolicy: IfNotPresent
+  db: planmate
+  storage: 1Gi
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "250m"
+
+iam:
+  replicaCount: 1
+  image:
+    repository: viktorsirakov08/iam-plannermate
+    tag: v1
+    pullPolicy: IfNotPresent
+  service:
+    port: 8085
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "250m"

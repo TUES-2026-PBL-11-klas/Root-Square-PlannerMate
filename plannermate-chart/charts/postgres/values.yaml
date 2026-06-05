@@ -1,0 +1,13 @@
+postgres:
+  image:
+    tag: "16-alpine"
+    pullPolicy: IfNotPresent
+  db: planmate
+  storage: 1Gi
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "250m"

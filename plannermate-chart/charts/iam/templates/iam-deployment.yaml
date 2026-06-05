@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-iam
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-iam
+spec:
+  replicas: {{ .Values.iam.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-iam
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-iam
+    spec:
+      containers:
+        - name: iam
+          image: "{{ .Values.iam.image.repository }}:{{ .Values.iam.image.tag }}"
+          imagePullPolicy: {{ .Values.iam.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.iam.service.port }}
+          env:
+            {{- range $key, $val := .Values.iam.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.iam.service.port }}
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.iam.service.port }}
+            initialDelaySeconds: 40
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.iam.resources | nindent 12 }}

@@ -1,0 +1,5 @@
+apiVersion: v2
+name: postgres
+description: PostgreSQL Databases for PlannerMate
+type: application
+version: 0.1.0

@@ -1,0 +1,5 @@
+apiVersion: v2
+name: iam
+description: IAM Service for PlannerMate
+type: application
+version: 0.1.0
