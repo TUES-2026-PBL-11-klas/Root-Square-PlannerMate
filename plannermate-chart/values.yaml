@@ -2,7 +2,7 @@
 replicaCount: 1
 
 image:
-  repository: viktorsirakov08/planmate
+  repository: viktoralexiev/planmate
   tag: v1
   pullPolicy: Always
 
@@ -21,9 +21,6 @@ resources:
 
 env:
   SPRING_PROFILES_ACTIVE: prod
-  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-service:5432/planmate"
-  SPRING_DATASOURCE_USERNAME: "planmate"
-  SPRING_DATASOURCE_PASSWORD: "secret"
   SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
   SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: "org.hibernate.dialect.PostgreSQLDialect"
   SERVER_PORT: "8081"
