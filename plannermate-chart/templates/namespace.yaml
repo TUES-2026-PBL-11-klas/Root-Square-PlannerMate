@@ -1,0 +1,6 @@
+# A namespace isolates your app's resources from other things in K8s
+# Think of it like a folder for all your app's K8s objects
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: planmate

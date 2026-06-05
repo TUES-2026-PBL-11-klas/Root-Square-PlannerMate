@@ -1,0 +1,10 @@
+# ConfigMap stores non-secret configuration
+# Keeps config separate from the container image
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: planmate-config
+  namespace: planmate
+data:
+  SPRING_PROFILES_ACTIVE: "prod"
+  SERVER_PORT: "8081"
