@@ -1,9 +1,9 @@
 # Default values - override these per environment
-dockerHubUsername: viktorsirakov08
+R_DOCKERHUB_USERNAME: viktoralexiev
 replicaCount: 1
 
 image:
-  repository: viktorsirakov08/planmate
+  repository: viktoralexiev/planmate
   tag: v2
   pullPolicy: Always
 
@@ -22,7 +22,8 @@ resources:
 
 env:
   SPRING_PROFILES_ACTIVE: prod
-  IAM_SERVICE_URL: "http://{{ .Release.Name }}-iam:8085"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-service:5432/planmate"
+  SPRING_DATASOURCE_USERNAME: "planmate"
   SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
   SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: "org.hibernate.dialect.PostgreSQLDialect"
   SERVER_PORT: "8081"

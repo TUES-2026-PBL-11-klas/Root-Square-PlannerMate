@@ -21,11 +21,15 @@ spec:
           imagePullPolicy: {{ .Values.iam.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.iam.service.port }}
+          envFrom:
+            - configMapRef:
+                name: planmate-config
           env:
-            {{- range $key, $val := .Values.iam.env }}
-            - name: {{ $key }}
-              value: {{ $val | quote }}
-            {{- end }}
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: password
           readinessProbe:
             httpGet:
               path: /health

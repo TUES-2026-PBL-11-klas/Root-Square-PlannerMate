@@ -25,6 +25,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-config
           env:
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
