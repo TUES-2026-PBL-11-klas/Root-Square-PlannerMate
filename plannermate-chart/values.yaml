@@ -1,0 +1,24 @@
+# Default values - override these per environment
+replicaCount: 1
+
+image:
+  repository: YOUR_DOCKERHUB_USERNAME/planmate
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: NodePort
+  port: 8080
+  nodePort: 30080
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+# These become environment variables in the container
+env:
+  SPRING_PROFILES_ACTIVE: prod
