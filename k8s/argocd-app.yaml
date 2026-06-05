@@ -1,0 +1,26 @@
+# This tells ArgoCD: "watch this Git repo and keep the cluster matching what's in helm/planmate"
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: planmate
+  namespace: argocd
+spec:
+  project: default
+  
+  source:
+    repoURL: https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git
+    targetRevision: main       # Watch the main branch
+    path: helm/planmate        # Use the Helm chart at this path
+    helm:
+      releaseName: planmate
+      
+  destination:
+    server: https://kubernetes.default.svc   # Deploy to the local cluster
+    namespace: planmate
+    
+  syncPolicy:
+    automated:
+      prune: true      # Remove K8s resources that are no longer in Git
+      selfHeal: true   # If someone manually changes something in K8s, revert it to match Git
+    syncOptions:
+      - CreateNamespace=true   # Create the 'planmate' namespace if it doesn't exist

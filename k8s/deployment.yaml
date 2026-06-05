@@ -1,0 +1,48 @@
+apiVersion: apps/v1YOU
+kind: Deployment
+metadata:
+  name: planmate
+  namespace: planmate
+  labels:
+    app: planmate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: planmate
+  template:
+    metadata:
+      labels:
+        app: planmate
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8081"
+        prometheus.io/path: "/actuator/prometheus"
+    spec:
+      containers:
+        - name: planmate
+          image: R_DOCKERHUB_USERNAME/planmate:latest
+          ports:
+            - containerPort: 8081
+          envFrom:
+            - configMapRef:
+                name: planmate-config
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8081
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
