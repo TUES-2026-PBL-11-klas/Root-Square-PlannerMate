@@ -26,10 +26,11 @@ spec:
           ports:
             - containerPort: {{ .Values.service.port }}
           env:
-            {{- range $key, $val := .Values.env }}
-            - name: {{ $key }}
-              value: {{ $val | quote }}
-            {{- end }}
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: planmate-db-secret
+                  key: password
           readinessProbe:
             httpGet:
               path: /actuator/health

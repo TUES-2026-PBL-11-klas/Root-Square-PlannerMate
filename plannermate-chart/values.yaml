@@ -2,14 +2,14 @@
 replicaCount: 1
 
 image:
-  repository: YOUR_DOCKERHUB_USERNAME/planmate
-  tag: latest
+  repository: viktorsirakov08/planmate
+  tag: v1
   pullPolicy: Always
 
 service:
   type: NodePort
-  port: 8080
-  nodePort: 30080
+  port: 8081
+  nodePort: 30081
 
 resources:
   requests:
@@ -19,6 +19,11 @@ resources:
     memory: "512Mi"
     cpu: "500m"
 
-# These become environment variables in the container
 env:
   SPRING_PROFILES_ACTIVE: prod
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-service:5432/planmate"
+  SPRING_DATASOURCE_USERNAME: "planmate"
+  SPRING_DATASOURCE_PASSWORD: "secret"
+  SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
+  SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: "org.hibernate.dialect.PostgreSQLDialect"
+  SERVER_PORT: "8081"
