@@ -115,9 +115,9 @@ button {
 }
 
 .brand-mark {
-  width: 40px;
+  width: 120px;
   height: 40px;
-  border-radius: 14px;
+  border-radius: 20px;
   box-shadow: 0 0 26px rgba(72, 240, 143, 0.28);
 }
 

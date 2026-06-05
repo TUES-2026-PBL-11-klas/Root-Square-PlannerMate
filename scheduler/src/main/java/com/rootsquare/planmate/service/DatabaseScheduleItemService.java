@@ -4,26 +4,30 @@ import com.rootsquare.planmate.dto.ScheduleItemRequest;
 import com.rootsquare.planmate.dto.ScheduleItemResponse;
 import com.rootsquare.planmate.exception.NotFoundException;
 import com.rootsquare.planmate.model.ScheduleItem;
+import com.rootsquare.planmate.repository.ScheduleItemRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
-public class InMemoryScheduleItemService implements ScheduleItemService {
+public class DatabaseScheduleItemService implements ScheduleItemService {
 
-    private final Map<Long, ScheduleItem> scheduleItems = new ConcurrentHashMap<>();
-    private final AtomicLong idSequence = new AtomicLong(1);
+    private final ScheduleItemRepository scheduleItemRepository;
+
+    public DatabaseScheduleItemService(ScheduleItemRepository scheduleItemRepository) {
+        this.scheduleItemRepository = scheduleItemRepository;
+    }
 
     @PostConstruct
     public void loadSampleData() {
+        if (scheduleItemRepository.count() > 0) {
+            return;
+        }
+
         createScheduleItem(sampleRequest(
                 "Math revision",
                 "Practice equations and review weak topics.",
@@ -58,7 +62,7 @@ public class InMemoryScheduleItemService implements ScheduleItemService {
 
     @Override
     public List<ScheduleItemResponse> getScheduleItems() {
-        return scheduleItems.values().stream()
+        return scheduleItemRepository.findAll().stream()
                 .sorted(Comparator.comparing(ScheduleItem::getDate).thenComparing(ScheduleItem::getStartTime))
                 .map(this::toResponse)
                 .toList();
@@ -71,38 +75,26 @@ public class InMemoryScheduleItemService implements ScheduleItemService {
 
     @Override
     public ScheduleItemResponse createScheduleItem(ScheduleItemRequest request) {
-        Long id = idSequence.getAndIncrement();
-        ScheduleItem item = toModel(id, request);
-
-        // TODO: Replace this Map write with ScheduleItemRepository#save when Spring Data JPA is introduced.
-        scheduleItems.put(id, item);
-        return toResponse(item);
+        ScheduleItem item = toModel(null, request);
+        return toResponse(scheduleItemRepository.save(item));
     }
 
     @Override
     public ScheduleItemResponse updateScheduleItem(Long id, ScheduleItemRequest request) {
         findById(id);
         ScheduleItem updatedItem = toModel(id, request);
-
-        // TODO: Replace this Map write with ScheduleItemRepository#save when Spring Data JPA is introduced.
-        scheduleItems.put(id, updatedItem);
-        return toResponse(updatedItem);
+        return toResponse(scheduleItemRepository.save(updatedItem));
     }
 
     @Override
     public void deleteScheduleItem(Long id) {
         findById(id);
-
-        // TODO: Replace this Map removal with ScheduleItemRepository#deleteById when Spring Data JPA is introduced.
-        scheduleItems.remove(id);
+        scheduleItemRepository.deleteById(id);
     }
 
     private ScheduleItem findById(Long id) {
-        ScheduleItem item = scheduleItems.get(id);
-        if (item == null) {
-            throw new NotFoundException("Schedule item with id " + id + " was not found");
-        }
-        return item;
+        return scheduleItemRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Schedule item with id " + id + " was not found"));
     }
 
     private ScheduleItem toModel(Long id, ScheduleItemRequest request) {

@@ -1,19 +1,51 @@
 package com.rootsquare.planmate.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "schedule_items")
 public class ScheduleItem {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String title;
+
+    @Column(length = 1000)
     private String description;
+
+    @Column(nullable = false)
     private LocalDate date;
+
+    @Column(nullable = false)
     private LocalTime startTime;
+
+    @Column(nullable = false)
     private LocalTime endTime;
+
     private String location;
+
+    @Column(nullable = false)
     private boolean repeating;
+
+    @Column(nullable = false)
     private boolean active;
+
+    @ManyToMany(mappedBy = "items")
+    private List<Schedule> schedules = new ArrayList<>();
 
     public ScheduleItem() {
     }
@@ -110,5 +142,13 @@ public class ScheduleItem {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public List<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<Schedule> schedules) {
+        this.schedules = schedules == null ? new ArrayList<>() : schedules;
     }
 }
