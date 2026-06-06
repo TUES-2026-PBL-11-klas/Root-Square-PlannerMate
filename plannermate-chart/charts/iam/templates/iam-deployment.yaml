@@ -6,7 +6,7 @@ metadata:
   labels:
     app: {{ .Release.Name }}-iam
 spec:
-  replicas: {{ .Values.iam.replicaCount }}
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: {{ .Release.Name }}-iam
@@ -17,13 +17,10 @@ spec:
     spec:
       containers:
         - name: iam
-          image: "{{ .Values.iam.image.repository }}:{{ .Values.iam.image.tag }}"
-          imagePullPolicy: {{ .Values.iam.image.pullPolicy }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.iam.service.port }}
-          envFrom:
-            - configMapRef:
-                name: planmate-config
+            - containerPort: {{ .Values.service.port }}
           env:
             - name: SPRING_DATASOURCE_URL
               valueFrom:
@@ -40,17 +37,11 @@ spec:
                 secretKeyRef:
                   name: db-secret
                   key: password
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dserver.port={{ .Values.service.port }} -Dspring.datasource.url=$(SPRING_DATASOURCE_URL) -Dspring.datasource.username=$(SPRING_DATASOURCE_USERNAME) -Dspring.datasource.password=$(SPRING_DATASOURCE_PASSWORD)"
           readinessProbe:
-            httpGet:
-              path: /health
-              port: {{ .Values.iam.service.port }}
-            initialDelaySeconds: 20
-            periodSeconds: 10
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
           livenessProbe:
-            httpGet:
-              path: /health
-              port: {{ .Values.iam.service.port }}
-            initialDelaySeconds: 40
-            periodSeconds: 20
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
           resources:
-            {{- toYaml .Values.iam.resources | nindent 12 }}
+            {{- toYaml .Values.resources | nindent 12 }}

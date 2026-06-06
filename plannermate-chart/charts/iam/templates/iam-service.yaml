@@ -7,6 +7,6 @@ spec:
   selector:
     app: {{ .Release.Name }}-iam
   ports:
-    - port: {{ .Values.iam.service.port }}
-      targetPort: {{ .Values.iam.service.port }}
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.port }}
   type: ClusterIP

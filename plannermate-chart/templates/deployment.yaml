@@ -45,16 +45,8 @@ spec:
                   name: db-secret
                   key: password
           readinessProbe:
-            httpGet:
-              path: /actuator/health
-              port: {{ .Values.service.port }}
-            initialDelaySeconds: 30
-            periodSeconds: 10
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
           livenessProbe:
-            httpGet:
-              path: /actuator/health
-              port: {{ .Values.service.port }}
-            initialDelaySeconds: 60
-            periodSeconds: 20
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

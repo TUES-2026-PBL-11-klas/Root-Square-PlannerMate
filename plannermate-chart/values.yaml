@@ -1,6 +1,6 @@
 # Default values - override these per environment
 DOCKERHUB_USERNAME: viktorsirakov08
-replicaCount: 1
+replicaCount: 2
 
 image:
   repository: viktorsirakov08/planmate
@@ -19,6 +19,20 @@ resources:
   limits:
     memory: "512Mi"
     cpu: "500m"
+
+readinessProbe:
+  httpGet:
+    path: /actuator/health
+    port: 8081
+  initialDelaySeconds: 60
+  periodSeconds: 10
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health
+    port: 8081
+  initialDelaySeconds: 90
+  periodSeconds: 20
 
 env:
   SPRING_PROFILES_ACTIVE: prod
@@ -55,3 +69,15 @@ iam:
     limits:
       memory: "256Mi"
       cpu: "250m"
+  readinessProbe:
+    tcpSocket:
+      port: 8085
+    initialDelaySeconds: 70
+    periodSeconds: 10
+    failureThreshold: 6
+  livenessProbe:
+    tcpSocket:
+      port: 8085
+    initialDelaySeconds: 120
+    periodSeconds: 20
+    failureThreshold: 3
