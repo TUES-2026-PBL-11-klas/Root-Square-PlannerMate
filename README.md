@@ -8,6 +8,11 @@ PlannerMate е уеб-базирано приложение за планира�
 
 ---
 
+## Архитектура на системата
+![architecture](diagrams/architecture.png)
+
+---
+
 ## Файлова структура
 
 ```
@@ -139,6 +144,10 @@ ROOT-SQUARE-OUT-WITH-FRIENDS/
 
 ## База данни
 
+### Схема на базата
+
+![db_schema](diagrams/db_schema.png)
+
 Проектът използва ORM (Hibernate / Spring Data JPA) за управление на взаимодействието между Java обектите и PostgreSQL базата данни.
 
 ### Модели
@@ -160,6 +169,10 @@ ROOT-SQUARE-OUT-WITH-FRIENDS/
 ---
 
 ## Инфраструктура
+
+### Инфраструктурна диаграма
+
+![infrastructuure](diagrams/infrastructure.png)
 
 ### Deployments
 
