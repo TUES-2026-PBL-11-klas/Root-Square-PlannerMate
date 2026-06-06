@@ -4,3 +4,16 @@ description: PlanMate scheduler app
 type: application
 version: 0.1.0
 appVersion: "1.0.0"
+
+dependencies:
+  - name: iam
+    version: "0.1.0"
+    repository: "file://charts/iam"
+
+  - name: postgres
+    version: "0.1.0"
+    repository: "file://charts/postgres"
+
+  - name: friend
+    version: "0.1.0"
+    repository: "file://charts/friend"
