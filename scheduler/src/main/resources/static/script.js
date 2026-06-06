@@ -2,6 +2,7 @@
 
 const API_BASE_URL = "https://planmate-scheduler.onrender.com/api/schedule-items";
 const IAM_BASE_URL = "https://planmate-iam.onrender.com";
+//aaaaaaaaaaaaaaa
 
 const mockFriends = [
   { id: 1, name: "Maya", status: "Available today", initials: "MI" },
