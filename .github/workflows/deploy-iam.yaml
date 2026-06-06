@@ -2,9 +2,8 @@ name: Deploy IAM Service
 
 on:
   push:
-    branches: [scheduler]
+    branches: [main]
     paths:
-      - 'iam-service/**'
       - '.github/workflows/deploy-iam.yml'
 
 jobs:

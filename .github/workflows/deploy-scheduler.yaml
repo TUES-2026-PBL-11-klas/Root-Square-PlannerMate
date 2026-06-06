@@ -2,9 +2,9 @@ name: Deploy Scheduler Service
 
 on:
   push:
-    branches: [scheduler]
+    branches: [main]
     paths:
-      - 'scheduler/**'
+      - 'main/**'
       - '.github/workflows/deploy-scheduler.yml'
 
 jobs:
