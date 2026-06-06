@@ -2,7 +2,7 @@ name: Deploy Friend Service
 
 on:
   push:
-    branches: [scheduler]
+    branches: [main]
     paths:
       - 'friend-service/**'
       - '.github/workflows/deploy-friend.yml'
