@@ -540,6 +540,7 @@ function bindForms() {
     }
   });
 });
+$("#scheduleItemForm").addEventListener("submit", saveScheduleItemFromForm);
 }
 
 async function saveScheduleItemFromForm(event) {
