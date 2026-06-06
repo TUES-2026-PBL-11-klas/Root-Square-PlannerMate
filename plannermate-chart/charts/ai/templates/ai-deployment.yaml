@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-ai
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-ai
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-ai
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-ai
+    spec:
+      containers:
+        - name: ai
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          env:
+            - name: SERVER_PORT
+              value: {{ .Values.service.port | quote }}
+            - name: GROQ_API_KEY
+              value: {{ .Values.env.GROQ_API_KEY | quote }}
+            - name: GROQ_MODEL
+              value: {{ .Values.env.GROQ_MODEL | quote }}
+            - name: GROQ_MAX_TOKENS
+              value: {{ .Values.env.GROQ_MAX_TOKENS | quote }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

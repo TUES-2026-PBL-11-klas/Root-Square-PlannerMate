@@ -22,7 +22,7 @@ WORKDIR /app
 # Copy only the built JAR from Stage 1
 COPY --from=builder /app/target/scheduler-0.0.1-SNAPSHOT.jar app.jar
 
-# Expose port 8080 (what Spring Boot listens on)
+# Expose port 8081 (what Spring Boot listens on)
 EXPOSE 8081
 
 # Add a non-root user for security - never run apps as root in containers

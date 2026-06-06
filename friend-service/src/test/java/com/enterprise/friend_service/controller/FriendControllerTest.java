@@ -4,6 +4,7 @@ import com.enterprise.friend_service.client.IamClient;
 import com.enterprise.friend_service.client.IamUserResponse;
 import com.enterprise.friend_service.dto.FriendResponse;
 import com.enterprise.friend_service.dto.SendFriendRequest;
+import com.enterprise.friend_service.security.JwtUtils;
 import com.enterprise.friend_service.service.FriendService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,9 @@ class FriendControllerTest {
 
     @MockBean
     private IamClient iamClient;
+
+    @MockBean
+    private JwtUtils jwtUtils;
 
     @Test
     @WithMockUser(username = CALLER_EMAIL)

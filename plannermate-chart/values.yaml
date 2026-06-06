@@ -12,6 +12,14 @@ service:
   port: 8081
   nodePort: 30081
 
+database:
+  url: "jdbc:postgresql://postgres-service:5432/planmate"
+  username: "planmate"
+  password: "planmate-password"
+
+security:
+  jwtSecret: "change-this-development-jwt-secret-to-a-long-production-secret"
+
 resources:
   requests:
     memory: "256Mi"
@@ -37,8 +45,12 @@ livenessProbe:
 env:
   SPRING_PROFILES_ACTIVE: prod
   SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
-  SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: "org.hibernate.dialect.PostgreSQLDialect"
+  SPRING_JPA_DATABASE_PLATFORM: "org.hibernate.dialect.PostgreSQLDialect"
+  SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
+  SPRING_H2_CONSOLE_ENABLED: "false"
   SERVER_PORT: "8081"
+  IAM_SERVICE_BASE_URL: "http://planmate-iam:8085"
+  AI_SERVICE_BASE_URL: "http://planmate-ai:8082"
 
 postgres:
   image:
@@ -62,6 +74,8 @@ iam:
     pullPolicy: IfNotPresent
   service:
     port: 8085
+  env:
+    JWT_SECRET: "change-this-development-jwt-secret-to-a-long-production-secret"
   resources:
     requests:
       memory: "128Mi"
@@ -82,6 +96,40 @@ iam:
     periodSeconds: 20
     failureThreshold: 3
 
+ai:
+  replicaCount: 1
+  image:
+    repository: viktorsirakov08/ai-api
+    tag: v1
+    pullPolicy: IfNotPresent
+  service:
+    port: 8082
+  env:
+    GROQ_API_KEY: ""
+    GROQ_MODEL: "llama-3.3-70b-versatile"
+    GROQ_MAX_TOKENS: "1024"
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "250m"
+  readinessProbe:
+    httpGet:
+      path: /actuator/health
+      port: 8082
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    failureThreshold: 6
+  livenessProbe:
+    httpGet:
+      path: /actuator/health
+      port: 8082
+    initialDelaySeconds: 60
+    periodSeconds: 20
+    failureThreshold: 3
+
 friend:
   replicaCount: 1
   image:
@@ -90,6 +138,9 @@ friend:
     pullPolicy: IfNotPresent
   service:
     port: 8090
+  env:
+    JWT_SECRET: "change-this-development-jwt-secret-to-a-long-production-secret"
+    IAM_SERVICE_BASE_URL: "http://planmate-iam:8085"
   resources:
     requests:
       memory: "128Mi"

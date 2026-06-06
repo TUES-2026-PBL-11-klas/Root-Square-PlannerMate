@@ -5,6 +5,8 @@ image:
   pullPolicy: IfNotPresent
 service:
   port: 8085
+env:
+  JWT_SECRET: "change-this-development-jwt-secret-to-a-long-production-secret"
 resources:
   requests:
     memory: "128Mi"

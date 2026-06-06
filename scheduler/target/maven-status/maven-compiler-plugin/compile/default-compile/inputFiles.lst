@@ -1,17 +1,19 @@
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/PlanMateApplication.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/config/CorsConfig.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/constants/Status.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/controller/ScheduleItemController.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/dto/ScheduleItemRequest.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/dto/ScheduleItemResponse.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/exception/GlobalExceptionHandler.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/exception/NotFoundException.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/model/Friend.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/model/Schedule.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/model/ScheduleItem.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/repository/FriendRepository.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/repository/ScheduleItemRepository.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/repository/ScheduleRepository.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/service/CalendarExportService.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/service/DatabaseScheduleItemService.java
-/mnt/e/Codes (11th Grade)/OOP/Root-Square-Out-With-Friends/scheduler/src/main/java/com/rootsquare/planmate/service/ScheduleItemService.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/PlanMateApplication.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/config/CorsConfig.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/constants/Status.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/controller/AiProxyController.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/controller/AuthProxyController.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/controller/ScheduleItemController.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/dto/ScheduleItemRequest.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/dto/ScheduleItemResponse.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/exception/GlobalExceptionHandler.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/exception/NotFoundException.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/model/Friend.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/model/Schedule.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/model/ScheduleItem.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/repository/FriendRepository.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/repository/ScheduleItemRepository.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/repository/ScheduleRepository.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/service/CalendarExportService.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/service/DatabaseScheduleItemService.java
+/Users/kristiyankobarelov/Documents/Projects/OOP/Root-Square-Plan-Your-Day/scheduler/src/main/java/com/rootsquare/planmate/service/ScheduleItemService.java

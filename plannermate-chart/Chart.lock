@@ -5,8 +5,11 @@ dependencies:
 - name: postgres
   repository: file://charts/postgres
   version: 0.1.0
+- name: ai
+  repository: file://charts/ai
+  version: 0.1.0
 - name: friend
   repository: file://charts/friend
   version: 0.1.0
-digest: sha256:8aedea8a8d50344e8b4992b57a5de2e675318dd5d9e2b3b2f9474789b2b66fb7
-generated: "2026-06-06T03:30:25.395068541+03:00"
+digest: sha256:f59ac072e5b8983b878f7922c13384fd146ab228edce8d8621382e2e6cbfafcb
+generated: "2026-06-06T11:09:12.288515+03:00"
