@@ -1,8 +1,8 @@
 "use strict";
 
-const API_BASE_URL = "https://planmate-scheduler.onrender.com/api/schedule-items";
-const IAM_BASE_URL = "https://planmate-iam.onrender.com";
-//aaaaaaaaaaaaaaa
+const API_BASE_URL = "/api/schedule-items";
+const AUTH_BASE_URL = "/api/auth";
+const AI_BASE_URL = "/api/ai";
 
 const mockFriends = [
   { id: 1, name: "Maya", status: "Available today", initials: "MI" },
@@ -84,6 +84,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderStaticLanding();
   renderMockSections();
   await refreshScheduleItems();
+  await refreshAiRecommendations();
   navigateToRoute(getInitialRoute());
 });
 
@@ -168,6 +169,42 @@ function renderMockSections() {
   renderInterests();
 }
 
+async function refreshAiRecommendations() {
+  try {
+    const prompt = "Give three concise schedule recommendations for a student planning school tasks, study preparation and friends. Format each as Title: detail.";
+    const data = await requestJson(AI_BASE_URL, {
+      method: "POST",
+      body: JSON.stringify({ prompt })
+    });
+    const recommendations = parseAiRecommendations(data.response);
+    if (recommendations.length) {
+      renderCompactList("#aiRecommendations", recommendations);
+    }
+  } catch {
+    renderCompactList("#aiRecommendations", mockAiRecommendations);
+  }
+}
+
+function parseAiRecommendations(text) {
+  if (!text) {
+    return [];
+  }
+
+  return text
+    .split(/\n+/)
+    .map((line) => line.replace(/^[-*\d.\s]+/, "").trim())
+    .filter(Boolean)
+    .slice(0, 3)
+    .map((line, index) => {
+      const [title, ...detailParts] = line.split(":");
+      return {
+        id: index + 1,
+        title: title.trim() || `Recommendation ${index + 1}`,
+        detail: detailParts.join(":").trim() || line
+      };
+    });
+}
+
 async function getScheduleItems() {
   return requestJson(API_BASE_URL);
 }
@@ -209,12 +246,26 @@ async function requestJson(url, options = {}) {
     return null;
   }
 
-  return response.json();
+  const text = await response.text();
+  if (!text) {
+    return {};
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    return { response: text };
+  }
 }
 
 async function readErrorMessage(response) {
   try {
-    const body = await response.json();
+    const text = await response.text();
+    if (!text) {
+      return response.statusText;
+    }
+
+    const body = JSON.parse(text);
     if (body.fields) {
       return Object.values(body.fields).join(" ");
     }
@@ -488,59 +539,69 @@ function closeScheduleModal() {
 
 function bindForms() {
   $$("[data-auth-form]").forEach((form) => {
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const message = form.querySelector("[data-auth-message]");
-    message.classList.remove("success", "error");
-    message.textContent = "";
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const message = form.querySelector("[data-auth-message]");
+      message.classList.remove("success", "error");
+      message.textContent = "";
 
-    if (form.dataset.authForm === "login") {
-      try {
-        const response = await fetch(`${IAM_BASE_URL}/api/auth/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: form.elements.email.value,
-            password: form.elements.password.value
-          })
-        });
-        if (!response.ok) throw new Error("Invalid credentials");
-        const data = await response.json();
-        localStorage.setItem("token", data.token);
-        message.textContent = "Login successful!";
-        message.classList.add("success");
-        navigateToRoute("dashboard");
-      } catch (error) {
-        message.textContent = error.message;
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        message.textContent = "Please complete the required fields correctly.";
         message.classList.add("error");
+        return;
       }
 
-    } else if (form.dataset.authForm === "register") {
-      try {
-        const response = await fetch(`${IAM_BASE_URL}/api/auth/register`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: form.elements.name.value,
-            email: form.elements.email.value,
-            password: form.elements.password.value
-          })
-        });
-        if (!response.ok) throw new Error("Registration failed");
-        message.textContent = "Account created! Please login.";
-        message.classList.add("success");
-      } catch (error) {
-        message.textContent = error.message;
-        message.classList.add("error");
+      if (form.dataset.authForm === "login") {
+        await submitLoginForm(form, message);
+      } else if (form.dataset.authForm === "register") {
+        await submitRegisterForm(form, message);
       }
-
-    } else if (form.dataset.authForm === "forgot") {
-      message.textContent = "Reset link preview generated.";
-      message.classList.add("success");
-    }
+    });
   });
-});
-$("#scheduleItemForm").addEventListener("submit", saveScheduleItemFromForm);
+
+  $("#scheduleItemForm").addEventListener("submit", saveScheduleItemFromForm);
+}
+
+async function submitLoginForm(form, message) {
+  try {
+    const data = await requestJson(`${AUTH_BASE_URL}/login`, {
+      method: "POST",
+      body: JSON.stringify({
+        email: form.elements.email.value.trim(),
+        password: form.elements.password.value
+      })
+    });
+    const token = data.token || data.jwt || data.accessToken;
+    if (token) {
+      localStorage.setItem("token", token);
+    }
+    message.textContent = "Login successful.";
+    message.classList.add("success");
+    navigateToRoute("dashboard");
+  } catch (error) {
+    message.textContent = error.message || "Invalid credentials.";
+    message.classList.add("error");
+  }
+}
+
+async function submitRegisterForm(form, message) {
+  try {
+    await requestJson(`${AUTH_BASE_URL}/register`, {
+      method: "POST",
+      body: JSON.stringify({
+        name: form.elements.name.value.trim(),
+        email: form.elements.email.value.trim(),
+        password: form.elements.password.value
+      })
+    });
+    message.textContent = "Account created. You can log in now.";
+    message.classList.add("success");
+    setActiveAuthTab("login");
+  } catch (error) {
+    message.textContent = error.message || "Registration failed.";
+    message.classList.add("error");
+  }
 }
 
 async function saveScheduleItemFromForm(event) {
@@ -605,12 +666,17 @@ function showValidationMessage(form, messageElement, successText) {
 function bindAuthTabs() {
   $$(".auth-tab").forEach((tabButton) => {
     tabButton.addEventListener("click", () => {
-      const view = tabButton.dataset.authView;
-      $$(".auth-tab").forEach((button) => button.classList.toggle("active", button === tabButton));
-      $$("[data-auth-form]").forEach((form) => {
-        form.classList.toggle("active", form.dataset.authForm === view);
-      });
+      setActiveAuthTab(tabButton.dataset.authView);
     });
+  });
+}
+
+function setActiveAuthTab(view) {
+  $$(".auth-tab").forEach((button) => {
+    button.classList.toggle("active", button.dataset.authView === view);
+  });
+  $$("[data-auth-form]").forEach((form) => {
+    form.classList.toggle("active", form.dataset.authForm === view);
   });
 }
 

@@ -3,8 +3,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: planner-config
-  namespace: planmate
+  name: {{ .Release.Name }}-config
+  namespace: {{ .Release.Namespace }}
 data:
-  SPRING_PROFILES_ACTIVE: "prod"
-  SERVER_PORT: "8081"
+  {{- range $key, $value := .Values.env }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}
