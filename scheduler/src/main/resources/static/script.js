@@ -1,6 +1,7 @@
 "use strict";
 
-const API_BASE_URL = "/api/schedule-items";
+const API_BASE_URL = "http://localhost:30081/api/schedule-items";
+const IAM_BASE_URL = "http://localhost:30085";
 
 const mockFriends = [
   { id: 1, name: "Maya", status: "Available today", initials: "MI" },
@@ -485,23 +486,59 @@ function closeScheduleModal() {
 }
 
 function bindForms() {
-  $("#hangoutForm").addEventListener("submit", (event) => {
-    event.preventDefault();
-    showValidationMessage(event.currentTarget, event.currentTarget.querySelector("[data-form-message]"), "Hangout preview is ready.");
-  });
-
-  $("#scheduleItemForm").addEventListener("submit", saveScheduleItemFromForm);
-
   $$("[data-auth-form]").forEach((form) => {
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const message = form.querySelector("[data-auth-message]");
-      const successText = form.dataset.authForm === "forgot"
-        ? "Reset link preview generated."
-        : "Validation passed. Auth API will connect later.";
-      showValidationMessage(form, message, successText);
-    });
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const message = form.querySelector("[data-auth-message]");
+    message.classList.remove("success", "error");
+    message.textContent = "";
+
+    if (form.dataset.authForm === "login") {
+      try {
+        const response = await fetch(`${IAM_BASE_URL}/api/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: form.elements.email.value,
+            password: form.elements.password.value
+          })
+        });
+        if (!response.ok) throw new Error("Invalid credentials");
+        const data = await response.json();
+        localStorage.setItem("token", data.token);
+        message.textContent = "Login successful!";
+        message.classList.add("success");
+        navigateToRoute("dashboard");
+      } catch (error) {
+        message.textContent = error.message;
+        message.classList.add("error");
+      }
+
+    } else if (form.dataset.authForm === "register") {
+      try {
+        const response = await fetch(`${IAM_BASE_URL}/api/auth/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: form.elements.name.value,
+            email: form.elements.email.value,
+            password: form.elements.password.value
+          })
+        });
+        if (!response.ok) throw new Error("Registration failed");
+        message.textContent = "Account created! Please login.";
+        message.classList.add("success");
+      } catch (error) {
+        message.textContent = error.message;
+        message.classList.add("error");
+      }
+
+    } else if (form.dataset.authForm === "forgot") {
+      message.textContent = "Reset link preview generated.";
+      message.classList.add("success");
+    }
   });
+});
 }
 
 async function saveScheduleItemFromForm(event) {
