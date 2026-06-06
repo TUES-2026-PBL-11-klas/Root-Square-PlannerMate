@@ -4,7 +4,7 @@ image:
   tag: v1
   pullPolicy: IfNotPresent
 service:
-  port: 8085
+  port: 8090
 resources:
   requests:
     memory: "128Mi"
@@ -14,13 +14,13 @@ resources:
     cpu: "250m"
 readinessProbe:
   tcpSocket:
-    port: 8085
+    port: 8090
   initialDelaySeconds: 70
   periodSeconds: 10
   failureThreshold: 6
 livenessProbe:
   tcpSocket:
-    port: 8085
+    port: 8090
   initialDelaySeconds: 120
   periodSeconds: 20
   failureThreshold: 3
