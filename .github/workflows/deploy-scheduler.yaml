@@ -1,11 +1,11 @@
-name: Deploy IAM Service
+name: Deploy Scheduler Service
 
 on:
   push:
-    branches: [main]
+    branches: [scheduler]
     paths:
-      - 'iam-service/**'
-      - '.github/workflows/deploy-iam.yml'
+      - 'scheduler/**'
+      - '.github/workflows/deploy-scheduler.yml'
 
 jobs:
   deploy:
@@ -24,8 +24,8 @@ jobs:
 
       - name: Run tests
         run: mvn test --no-transfer-progress
-        working-directory: iam-service
+        working-directory: scheduler
 
       - name: Trigger Render deploy
         if: success()
-        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_IAM }}"
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_SCHEDULER }}"

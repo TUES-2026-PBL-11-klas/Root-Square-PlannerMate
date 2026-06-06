@@ -1,11 +1,11 @@
-name: Deploy IAM Service
+name: Deploy Friend Service
 
 on:
   push:
     branches: [main]
     paths:
-      - 'iam-service/**'
-      - '.github/workflows/deploy-iam.yml'
+      - 'friend-service/**'
+      - '.github/workflows/deploy-friend.yml'
 
 jobs:
   deploy:
@@ -24,8 +24,8 @@ jobs:
 
       - name: Run tests
         run: mvn test --no-transfer-progress
-        working-directory: iam-service
+        working-directory: friend-service
 
       - name: Trigger Render deploy
         if: success()
-        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_IAM }}"
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_FRIEND }}"
