@@ -248,7 +248,7 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 
 ArgoCD следи Git репозиторито и автоматично синхронизира Kubernetes Cluster-а с Helm chart-а:
 - `prune: true` — премахва ресурси, изтрити от Git
-- `selfHeal: true` — връща ръчни промени в Kubernetes към Git состоянието
+- `selfHeal: true` — връща ръчни промени в Kubernetes към Git състоянието
 - `CreateNamespace=true` — автоматично създава namespace-а
 
 ---
