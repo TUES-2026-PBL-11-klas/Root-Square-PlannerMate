@@ -9,8 +9,8 @@ spec:
   
   source:
     repoURL: https://github.com/TUES-2026-PBL-11-klas/Root-Square-PlannerMate.git
-    targetRevision: main       # Watch the main branch
-    path: helm/planmate        # Use the Helm chart at this path
+    targetRevision: main
+    path: plannermate-chart
     helm:
       releaseName: planmate
       

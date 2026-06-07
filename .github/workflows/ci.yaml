@@ -1,15 +1,23 @@
-name: Deploy IAM Service
+name: CI - Java services
 
 on:
   push:
     branches: [main]
     paths:
-      - 'iam-service/**'
-      - '.github/workflows/deploy-iam.yml'
+      - 'aiapi/**'
+      - 'friend-service/**'
+      - 'scheduler/**'
+      - 'plannermate-chart/**'
+      - '.github/workflows/ci.yaml'
+  pull_request:
+    branches: [main]
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        module: [aiapi, friend-service, scheduler]
 
     steps:
       - name: Checkout code
@@ -22,10 +30,14 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Run tests
+      - name: Run tests for ${{ matrix.module }}
         run: mvn test --no-transfer-progress
-        working-directory: iam-service
+        working-directory: ${{ matrix.module }}
 
-      - name: Trigger Render deploy
-        if: success()
-        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_IAM }}"
+      - name: Install Helm
+        if: matrix.module == 'scheduler'
+        uses: azure/setup-helm@v4
+
+      - name: Lint Helm chart
+        if: matrix.module == 'scheduler'
+        run: helm lint plannermate-chart

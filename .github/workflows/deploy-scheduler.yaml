@@ -1,14 +1,21 @@
-name: Deploy Scheduler Service
+name: CI - Scheduler Service
 
 on:
   push:
     branches: [main]
     paths:
+<<<<<<< Updated upstream
       - 'main/**'
       - '.github/workflows/deploy-scheduler.yml'
+=======
+      - 'scheduler/**'
+      - '.github/workflows/deploy-scheduler.yaml'
+  pull_request:
+    branches: [main]
+>>>>>>> Stashed changes
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +32,3 @@ jobs:
       - name: Run tests
         run: mvn test --no-transfer-progress
         working-directory: scheduler
-
-      - name: Trigger Render deploy
-        if: success()
-        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_SCHEDULER }}"

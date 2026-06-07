@@ -1,13 +1,20 @@
-name: Deploy IAM Service
+name: CI - AI API Service
 
 on:
   push:
     branches: [main]
     paths:
+<<<<<<< Updated upstream
       - '.github/workflows/deploy-iam.yml'
+=======
+      - 'aiapi/**'
+      - '.github/workflows/deploy-iam.yaml'
+  pull_request:
+    branches: [main]
+>>>>>>> Stashed changes
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,8 +30,4 @@ jobs:
 
       - name: Run tests
         run: mvn test --no-transfer-progress
-        working-directory: iam-service
-
-      - name: Trigger Render deploy
-        if: success()
-        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_IAM }}"
+        working-directory: aiapi

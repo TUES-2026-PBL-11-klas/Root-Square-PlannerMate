@@ -1,14 +1,16 @@
-name: Deploy Friend Service
+name: CI - Friend Service
 
 on:
   push:
     branches: [main]
     paths:
       - 'friend-service/**'
-      - '.github/workflows/deploy-friend.yml'
+      - '.github/workflows/deploy-friend.yaml'
+  pull_request:
+    branches: [main]
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +27,3 @@ jobs:
       - name: Run tests
         run: mvn test --no-transfer-progress
         working-directory: friend-service
-
-      - name: Trigger Render deploy
-        if: success()
-        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_FRIEND }}"
