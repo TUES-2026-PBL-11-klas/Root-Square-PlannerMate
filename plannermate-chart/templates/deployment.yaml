@@ -44,6 +44,16 @@ spec:
                 secretKeyRef:
                   name: db-secret
                   key: password
+            - name: GRAFANA_OTLP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-secret
+                  key: otlp-url
+            - name: GRAFANA_AUTH
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-secret
+                  key: auth
           readinessProbe:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
           livenessProbe:

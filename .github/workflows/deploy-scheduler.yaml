@@ -4,15 +4,11 @@ on:
   push:
     branches: [main]
     paths:
-<<<<<<< Updated upstream
-      - 'main/**'
-      - '.github/workflows/deploy-scheduler.yml'
-=======
       - 'scheduler/**'
       - '.github/workflows/deploy-scheduler.yaml'
   pull_request:
     branches: [main]
->>>>>>> Stashed changes
+
 
 jobs:
   test:
