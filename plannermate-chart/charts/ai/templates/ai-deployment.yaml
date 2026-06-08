@@ -25,7 +25,10 @@ spec:
             - name: SERVER_PORT
               value: {{ .Values.service.port | quote }}
             - name: GROQ_API_KEY
-              value: {{ .Values.env.GROQ_API_KEY | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: groq-secret
+                  key: GROQ_API_KEY
             - name: GROQ_MODEL
               value: {{ .Values.env.GROQ_MODEL | quote }}
             - name: GROQ_MAX_TOKENS

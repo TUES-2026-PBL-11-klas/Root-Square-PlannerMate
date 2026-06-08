@@ -43,7 +43,10 @@ spec:
                   name: db-secret
                   key: password
             - name: JWT_SECRET
-              value: {{ .Values.env.JWT_SECRET | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_SECRET
             - name: JAVA_TOOL_OPTIONS
               value: "-Dserver.port={{ .Values.service.port }} -Dspring.datasource.url=$(SPRING_DATASOURCE_URL) -Dspring.datasource.username=$(SPRING_DATASOURCE_USERNAME) -Dspring.datasource.password=$(SPRING_DATASOURCE_PASSWORD)"
           readinessProbe:

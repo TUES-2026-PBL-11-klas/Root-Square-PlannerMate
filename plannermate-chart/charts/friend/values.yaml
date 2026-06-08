@@ -1,12 +1,11 @@
 replicaCount: 1
 image:
-  repository: viktorsirakov08/friends-service
+  repository: viktorsirakov08/planner-frd
   tag: v1
   pullPolicy: IfNotPresent
 service:
   port: 8090
 env:
-  JWT_SECRET: "change-this-development-jwt-secret-to-a-long-production-secret"
   IAM_SERVICE_BASE_URL: "http://planmate-iam:8085"
 resources:
   requests:

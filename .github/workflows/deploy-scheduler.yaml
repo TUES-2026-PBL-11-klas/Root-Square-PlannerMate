@@ -2,12 +2,12 @@ name: CI - Scheduler Service
 
 on:
   push:
-    branches: [main]
+    branches: [after-end-date]
     paths:
       - 'scheduler/**'
       - '.github/workflows/deploy-scheduler.yaml'
   pull_request:
-    branches: [main]
+    branches: [after-end-date]
 
 
 jobs:

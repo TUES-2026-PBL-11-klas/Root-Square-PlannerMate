@@ -2,12 +2,12 @@ name: CI - Friend Service
 
 on:
   push:
-    branches: [main]
+    branches: [after-end-date]
     paths:
       - 'friend-service/**'
       - '.github/workflows/deploy-friend.yaml'
   pull_request:
-    branches: [main]
+    branches: [after-end-date]
 
 jobs:
   test:

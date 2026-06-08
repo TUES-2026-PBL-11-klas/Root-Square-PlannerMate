@@ -2,7 +2,7 @@ name: CI - Java services
 
 on:
   push:
-    branches: [main]
+    branches: [after-end-date]
     paths:
       - 'aiapi/**'
       - 'friend-service/**'
@@ -10,7 +10,7 @@ on:
       - 'plannermate-chart/**'
       - '.github/workflows/ci.yaml'
   pull_request:
-    branches: [main]
+    branches: [after-end-date]
 
 jobs:
   test:

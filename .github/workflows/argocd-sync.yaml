@@ -2,7 +2,7 @@ name: CD - ArgoCD sync
 
 on:
   push:
-    branches: [main]
+    branches: [after-end-date]
     paths:
       - 'plannermate-chart/**'
       - '.github/workflows/argocd-sync.yaml'

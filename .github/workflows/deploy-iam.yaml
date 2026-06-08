@@ -2,16 +2,12 @@ name: CI - AI API Service
 
 on:
   push:
-    branches: [main]
+    branches: [after-end-date]
     paths:
-<<<<<<< Updated upstream
-      - '.github/workflows/deploy-iam.yml'
-=======
       - 'aiapi/**'
       - '.github/workflows/deploy-iam.yaml'
   pull_request:
-    branches: [main]
->>>>>>> Stashed changes
+    branches: [after-end-date]
 
 jobs:
   test:
