@@ -46,5 +46,32 @@ env:
   SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
   SPRING_H2_CONSOLE_ENABLED: "false"
   SERVER_PORT: "8081"
-  IAM_SERVICE_BASE_URL: "http://planmate-iam:8085"
+  IAM_SERVICE_BASE_URL: "http://planner-iam:8085"
   AI_SERVICE_BASE_URL: "http://planmate-ai:8082"
+
+iam:
+  image:
+    repository: viktorsirakov08/planner-iam
+    tag: v1
+    pullPolicy: IfNotPresent
+  service:
+    port: 8085
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "250m"
+  readinessProbe:
+    tcpSocket:
+      port: 8085
+    initialDelaySeconds: 70
+    periodSeconds: 10
+    failureThreshold: 6
+  livenessProbe:
+    tcpSocket:
+      port: 8085
+    initialDelaySeconds: 120
+    periodSeconds: 20
+    failureThreshold: 3
